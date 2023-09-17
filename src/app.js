@@ -7,6 +7,7 @@ import __dirname from './utils.js';
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import productsRouter from './routes/products.router.js'
+import secretRouter from './routes/secret.router.js'
 
 
 const app = express();
@@ -27,6 +28,21 @@ app.use(session({
     saveUninitialized: false
 }))
 
+//Middleware para verificar los intentos de ingreso a la ruta "secret",
+const secured = async (req, res, next) => {
+    if (req.session.user) {
+        app.locals.user = req.session.user;
+        next();
+    } else {
+        res.render("login"); // login.hbs
+    }
+};
+
+const isAuth = (req, res, next) => {
+    app.locals.user = req.session.user;
+    next();
+};
+
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
@@ -34,5 +50,9 @@ app.set('view engine', 'handlebars');
 app.use('/', viewsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/products', productsRouter);
-
+app.use('/secret', secretRouter);
+// catch all route
+app.get("*", (req, res) => {
+    res.send('Error 404 - Not Found');
+});
 const server = app.listen(8080, () => console.log("Listening on 8080"))
