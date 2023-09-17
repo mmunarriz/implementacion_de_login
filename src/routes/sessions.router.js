@@ -4,7 +4,7 @@ import userModel from '../dao/models/users.model.js';
 const router = Router();
 
 router.post('/register', async (req, res) => {
-    const { first_name, last_name, email, age, password } = req.body;
+    const { first_name, last_name, email, age, password, user_type } = req.body;
     const exists = await userModel.findOne({ email });
     if (exists) return res.status(400).send({ status: "error", error: "User already exists" });
     const user = {
@@ -12,7 +12,8 @@ router.post('/register', async (req, res) => {
         last_name,
         email,
         age,
-        password //De momento no vamos a hashearlo, eso corresponde a la siguiente clase.
+        password, //De momento no vamos a hashearlo, eso corresponde a la siguiente clase.
+        user_type
     }
     let result = await userModel.create(user);
     res.send({ status: "success", message: "User registered" });
