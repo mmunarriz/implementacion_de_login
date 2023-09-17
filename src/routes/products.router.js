@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', async (req, res) => {
     try {
         // Obtener y validar los "query params" de la URL
-        const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+        const limit = req.query.limit ? parseInt(req.query.limit) : 8;
         const page = req.query.page ? parseInt(req.query.page) : 1;
         const query = req.query.query || '';
         const sort = req.query.sort || '';

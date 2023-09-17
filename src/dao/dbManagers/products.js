@@ -5,7 +5,7 @@ export default class Products {
         // console.log(`Working products with Database persistence in mongodb`)
     }
 
-    getAll = async (limit = 10, page = 1, queryOptions = {}, sort = '') => {
+    getAll = async (limit = 8, page = 1, queryOptions = {}, sort = '') => {
         try {
             // Calcular el índice de inicio para paginación
             const startIndex = (page - 1) * limit;
