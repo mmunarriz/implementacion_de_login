@@ -28,21 +28,6 @@ app.use(session({
     saveUninitialized: false
 }))
 
-//Middleware para verificar los intentos de ingreso a la ruta "secret",
-const secured = async (req, res, next) => {
-    if (req.session.user) {
-        app.locals.user = req.session.user;
-        next();
-    } else {
-        res.render("login"); // login.hbs
-    }
-};
-
-const isAuth = (req, res, next) => {
-    app.locals.user = req.session.user;
-    next();
-};
-
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
