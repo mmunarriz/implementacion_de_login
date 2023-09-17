@@ -7,7 +7,6 @@ import __dirname from './utils.js';
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import productsRouter from './routes/products.router.js'
-import secretRouter from './routes/secret.router.js'
 
 
 const app = express();
@@ -35,7 +34,6 @@ app.set('view engine', 'handlebars');
 app.use('/', viewsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/products', productsRouter);
-app.use('/secret', secretRouter);
 // catch all route
 app.get("*", (req, res) => {
     res.send('Error 404 - Not Found');

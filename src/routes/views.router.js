@@ -7,7 +7,7 @@ const router = Router();
 // Ruta protegida: (solo accesible si el usuario no está autenticado)
 router.get('/register', (req, res) => {
     if (req.session.user) {
-        return res.redirect('/'); // Redirige al usuario autenticado a su perfil si intenta acceder al 'register'
+        return res.redirect('/profile'); // Redirige al usuario autenticado a su perfil si intenta acceder al 'register'
     }
     res.render('register');
 });
@@ -15,7 +15,7 @@ router.get('/register', (req, res) => {
 // Ruta protegida: (solo accesible si el usuario no está autenticado)
 router.get('/login', (req, res) => {
     if (req.session.user) {
-        return res.redirect('/'); // Redirige al usuario autenticado a su perfil si intenta acceder al 'login'
+        return res.redirect('/profile'); // Redirige al usuario autenticado a su perfil si intenta acceder al 'login'
     }
     res.render('login');
 });
@@ -25,12 +25,20 @@ router.get("/logout", (req, res) => {
     res.redirect("/login");
 });
 
-router.get('/', requireAuth, (req, res) => {
+router.get('/', (req, res) => {
+    res.render('home', {
+        user: req.session.user
+    });
+})
+
+// Ruta requiere estar autenticado
+router.get('/profile', requireAuth, (req, res) => {
     res.render('profile', {
         user: req.session.user
     });
 })
 
+// Ruta requiere estar autenticado
 router.get('/products', requireAuth, async (req, res) => {
     const { page = 1 } = req.query;
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productsModel.paginate({}, { limit: 8, page, lean: true });
