@@ -26,7 +26,7 @@ const schema = new mongoose.Schema({
     },
     user_type: {
         type: String,
-        default: "usuario"
+        default: "user"
     },
 })
 

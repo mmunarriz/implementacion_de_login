@@ -21,14 +21,24 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email, password }); //Ya que el password no está hasheado, podemos buscarlo directamente
+    // Comprueba si los datos coinciden estos.
+    if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+        req.session.user = {
+            name: "Admin Coderhouse",
+            email: email,
+            rol: "admin"
+        }
+        return res.send({ status: "success", payload: req.session.user, message: "Administrador logueado" });
+    }
+    // Si no coinciden los datos especiales, verifica en la base de datos
+    const user = await userModel.findOne({ email, password });
     if (!user) return res.status(400).send({ status: "error", error: "Incorrect credentials" });
     req.session.user = {
         name: `${user.first_name} ${user.last_name}`,
         email: user.email,
-        age: user.age
+        rol: user.user_type
     }
-    res.send({ status: "success", payload: req.session.user, message: "¡Primer logueo realizado! :)" });
+    res.send({ status: "success", payload: req.session.user, message: "Usuario logueado" });
 })
 
 export default router;
