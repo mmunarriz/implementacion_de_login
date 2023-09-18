@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    // Comprueba si los datos coinciden estos.
+    // Comprueba si los datos coinciden con estos.
     if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
         req.session.user = {
             name: "Admin Coderhouse",
